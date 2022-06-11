@@ -11,10 +11,10 @@ export const copyFile = async (args) => {
     
     const paths = await getArguments(args);
     if(!path.isAbsolute(paths.pathToFile)){
-        paths.pathToFile = path.join( globalVariables._current_directory, paths.pathToFile );
+        paths.pathToFile = path.resolve(globalVariables._current_directory, paths.pathToFile);
     }
     if (!path.isAbsolute(paths.pathToNewDirectory)) {
-        paths.pathToNewDirectory = path.join(globalVariables._current_directory, paths.pathToNewDirectory);
+        paths.pathToNewDirectory = path.resolve(globalVariables._current_directory, paths.pathToNewDirectory);
     }
     console.log('paths', paths);
 

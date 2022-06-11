@@ -5,7 +5,7 @@ import { globalVariables } from '../variables.js';
 export const deleteFile = async (args) => {
     let pathName = args.join(' ').replace(/['"]+/g, '').trim();
     const isAbsolutePossiblePathToFile = path.isAbsolute(pathName);
-    const pathToFile = isAbsolutePossiblePathToFile ? pathName : path.join(globalVariables._current_directory, pathName); 
+    const pathToFile = isAbsolutePossiblePathToFile ? pathName : path.resolve(globalVariables._current_directory, pathName);
 
     try {
         await fs.promises.access(pathToFile);

@@ -2,7 +2,7 @@ import { access } from 'fs/promises';
 import path from 'path';
 import { globalVariables } from '../variables.js';
 
-export const getArguments = async (args) => {
+export const getArguments = async (args, validateParams = {checkFirstPath:true, checkSecondPath: true}) => {
     const paths = {
         pathToFile: '',
         pathToNewDirectory: ''
@@ -16,7 +16,7 @@ export const getArguments = async (args) => {
         }
         return acc;
     }, []);
-    if (quotesIdxArray.length === 4) {
+    if (quotesIdxArray.length >= 4) {
         paths.pathToFile = argsString.substring(quotesIdxArray[0] + 1, quotesIdxArray[1]).trim();
         paths.pathToNewDirectory = argsString.substring(quotesIdxArray[2] + 1, quotesIdxArray[3]).trim();
         return paths;
@@ -44,8 +44,12 @@ export const getArguments = async (args) => {
             const isAbsolutePossiblePathToNewDirectory = path.isAbsolute(possiblePathToNewDirectory);
             const convertedPossiblePathToNewDirectory = isAbsolutePossiblePathToNewDirectory ? possiblePathToNewDirectory : path.resolve(globalVariables._current_directory, possiblePathToNewDirectory);
             try {
-                await access(convertedPossiblePathToFile);
-                await access(convertedPossiblePathToNewDirectory);
+                if (validateParams.checkFirstPath) {
+                    await access(convertedPossiblePathToFile);
+                };
+                if (validateParams.checkSecondPath) {
+                    await access(convertedPossiblePathToNewDirectory);
+                };
                 isPathsUncurrent = false;
             } catch {
                 counter--;

@@ -41,7 +41,6 @@ const getArguments = async (args) => {
             const possiblePathToFile = args.slice(0, counter).join(' ').trim();
             const isAbsolutePossiblePathToFile = path.isAbsolute(possiblePathToFile);
             const convertedPossiblePathToFile = isAbsolutePossiblePathToFile ? possiblePathToFile : path.resolve(globalVariables._current_directory, possiblePathToFile);
-            const possibleNewName = args.slice(counter).join(' ').trim();
 
             try {
                 await access(convertedPossiblePathToFile);
@@ -61,7 +60,7 @@ const getArguments = async (args) => {
 export const renameFile = async (args) => {
     const paths = await getArguments(args);
      if (!path.isAbsolute(paths.pathToFile)) {
-         paths.pathToFile = path.join(globalVariables._current_directory, paths.pathToFile.trim());
+         paths.pathToFile = path.resolve(globalVariables._current_directory, paths.pathToFile.trim());
      }
     console.log('pathtoFile', paths.pathToFile);
     console.log('newName ', path.join(path.dirname(paths.pathToFile), paths.newName.trim()));

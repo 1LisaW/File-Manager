@@ -4,7 +4,7 @@ import { globalVariables } from '../variables.js';
 
 export const readFileAndPrintIntoConsole = async (args) => {
     const pathName = args.join(' ').replace(/['"]+/g, '').trim();
-    const pathToFile = path.join(globalVariables._current_directory, pathName);
+    const pathToFile = path.resolve(globalVariables._current_directory, pathName);
     try {
         await fs.promises.access(pathToFile);
         const isDirectory = (await fs.promises.stat(pathToFile)).isDirectory();

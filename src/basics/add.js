@@ -4,7 +4,7 @@ import { globalVariables } from '../variables.js';
 
 export const addNewFile = async (args) =>{
     const pathToFile = args.join(' ').replace(/['"]+/g, '').trim();
-    const absPathToFile = path.join(globalVariables._current_directory, pathToFile);
+    const absPathToFile = path.resolve(globalVariables._current_directory, pathToFile);
     try{
         const arrArgs = pathToFile.split('.');
         if (arrArgs.length === 1){

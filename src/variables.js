@@ -9,6 +9,8 @@ import { renameFile } from './basics/rn.js';
 import { deleteFile } from './basics/rm.js';
 import { moveFile } from './basics/mv.js';
 import { getHashOfFile } from './hash/hash.js';
+import { compressFile } from './compressAndDecompress/compress.js'
+import { decompressFile } from './compressAndDecompress/decompress.js';
 
 const globalVariables = {
     _current_directory:'',
@@ -29,6 +31,8 @@ const commands = {
     'rm': { func: deleteFile, options: [false, '', 1] },
     'mv': { func: moveFile, options: [false, '', 2] },
     'hash': { func: getHashOfFile, options: [false,'',1]},
+    'compress': { func: compressFile, options: [false, '', 2]},
+    'decompress': { func: decompressFile, options: [false, '', 2]},
 }
 
 export {
