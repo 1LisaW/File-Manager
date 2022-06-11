@@ -16,7 +16,7 @@ export const copyFile = async (args) => {
     if (!path.isAbsolute(paths.pathToNewDirectory)) {
         paths.pathToNewDirectory = path.join(globalVariables._current_directory, paths.pathToNewDirectory);
     }
-    // console.log('paths', paths);
+    console.log('paths', paths);
 
     try {
         await access(paths.pathToFile);

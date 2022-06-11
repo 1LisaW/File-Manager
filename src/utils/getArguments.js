@@ -38,11 +38,11 @@ export const getArguments = async (args) => {
         while (isPathsUncurrent && counter > 0) {
             const possiblePathToFile = args.slice(0, counter).join(' ').trim();
             const isAbsolutePossiblePathToFile = path.isAbsolute(possiblePathToFile);
-            const convertedPossiblePathToFile = isAbsolutePossiblePathToFile ? possiblePathToFile : path.join(globalVariables._current_directory, possiblePathToFile);
+            const convertedPossiblePathToFile = isAbsolutePossiblePathToFile ? possiblePathToFile : path.resolve(globalVariables._current_directory, possiblePathToFile);
 
             const possiblePathToNewDirectory = args.slice(counter).join(' ').trim();
             const isAbsolutePossiblePathToNewDirectory = path.isAbsolute(possiblePathToNewDirectory);
-            const convertedPossiblePathToNewDirectory = isAbsolutePossiblePathToNewDirectory ? possiblePathToNewDirectory : path.join(globalVariables._current_directory, possiblePathToNewDirectory);
+            const convertedPossiblePathToNewDirectory = isAbsolutePossiblePathToNewDirectory ? possiblePathToNewDirectory : path.resolve(globalVariables._current_directory, possiblePathToNewDirectory);
             try {
                 await access(convertedPossiblePathToFile);
                 await access(convertedPossiblePathToNewDirectory);

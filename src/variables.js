@@ -8,6 +8,7 @@ import { copyFile } from './basics/cp.js';
 import { renameFile } from './basics/rn.js';
 import { deleteFile } from './basics/rm.js';
 import { moveFile } from './basics/mv.js';
+import { getHashOfFile } from './hash/hash.js';
 
 const globalVariables = {
     _current_directory:'',
@@ -27,6 +28,7 @@ const commands = {
     'rn': { func: renameFile, options: [false, '', 2] },
     'rm': { func: deleteFile, options: [false, '', 1] },
     'mv': { func: moveFile, options: [false, '', 2] },
+    'hash': { func: getHashOfFile, options: [false,'',1]},
 }
 
 export {

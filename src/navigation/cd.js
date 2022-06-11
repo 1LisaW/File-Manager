@@ -3,7 +3,7 @@ import fs from 'fs/promises'
 import { globalVariables } from '../variables.js';
 
 export const changeCurrentDirectory = async (args) => {
-    const pathName = args.join(' ');
+    const pathName = args.join(' ').replace(/['"]+/g, '').trim();
     const isAbsoluteNewPath = path.isAbsolute(pathName);
     const newPathDirection = isAbsoluteNewPath ? pathName: path.resolve(globalVariables._current_directory, pathName);
     let result;
