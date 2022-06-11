@@ -12,7 +12,7 @@ function isValidCollectionInputFormat(command, subcommandArray, separator) {
 }
 
 function isValidCommandInputFormat(subcommandArray, countOfArgs) {
-    return subcommandArray.length === countOfArgs;
+    return subcommandArray.length >= countOfArgs;
 }
 
 function getCollectionCommand(command, subcommandArray, separator) {
@@ -25,7 +25,7 @@ function getCollectionCommand(command, subcommandArray, separator) {
 
 function getCommand(command, subcommandArray, countOfArgs) {
     if (isValidCommandInputFormat(subcommandArray, countOfArgs)) {
-        return commands[command].func(...subcommandArray);
+        return commands[command].func(subcommandArray);
     }
     return null;
 }

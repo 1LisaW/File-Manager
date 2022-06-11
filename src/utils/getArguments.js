@@ -1,13 +1,11 @@
-import fs, {access} from 'fs/promises';
+import { access } from 'fs/promises';
 import path from 'path';
-import {
-    globalVariables
-} from '../variables.js';
+import { globalVariables } from '../variables.js';
 
-const getArguments = async (args) => {
+export const getArguments = async (args) => {
     const paths = {
         pathToFile: '',
-        newName: ''
+        pathToNewDirectory: ''
     };
 
     //check for quotes in string
@@ -20,15 +18,15 @@ const getArguments = async (args) => {
     }, []);
     if (quotesIdxArray.length === 4) {
         paths.pathToFile = argsString.substring(quotesIdxArray[0] + 1, quotesIdxArray[1]).trim();
-        paths.newName = argsString.substring(quotesIdxArray[2] + 1, quotesIdxArray[3]).trim();
+        paths.pathToNewDirectory = argsString.substring(quotesIdxArray[2] + 1, quotesIdxArray[3]).trim();
         return paths;
     } else if (quotesIdxArray.length === 2) {
         if (quotesIdxArray[0] > 1) {
             paths.pathToFile = argsString.substring(0, quotesIdxArray[0]).trim();
-            paths.newName = argsString.substring(quotesIdxArray[0] + 1, quotesIdxArray[1]).trim();
+            paths.pathToNewDirectory = argsString.substring(quotesIdxArray[0] + 1, quotesIdxArray[1]).trim();
         } else {
             paths.pathToFile = argsString.substring(quotesIdxArray[0] + 1, quotesIdxArray[1]).trim();
-            paths.newName = argsString.substring(quotesIdxArray[1] + 1, argsString.length).trim();
+            paths.pathToNewDirectory = argsString.substring(quotesIdxArray[1] + 1, argsString.length).trim();
         };
         return paths;
     }
@@ -41,35 +39,22 @@ const getArguments = async (args) => {
             const possiblePathToFile = args.slice(0, counter).join(' ').trim();
             const isAbsolutePossiblePathToFile = path.isAbsolute(possiblePathToFile);
             const convertedPossiblePathToFile = isAbsolutePossiblePathToFile ? possiblePathToFile : path.join(globalVariables._current_directory, possiblePathToFile);
-            const possibleNewName = args.slice(counter).join(' ').trim();
 
+            const possiblePathToNewDirectory = args.slice(counter).join(' ').trim();
+            const isAbsolutePossiblePathToNewDirectory = path.isAbsolute(possiblePathToNewDirectory);
+            const convertedPossiblePathToNewDirectory = isAbsolutePossiblePathToNewDirectory ? possiblePathToNewDirectory : path.join(globalVariables._current_directory, possiblePathToNewDirectory);
             try {
                 await access(convertedPossiblePathToFile);
+                await access(convertedPossiblePathToNewDirectory);
                 isPathsUncurrent = false;
             } catch {
                 counter--;
             }
         }
         paths.pathToFile = args.slice(0, counter).join(' ').trim();
-        paths.newName = args.slice(counter).join(' ').trim();
+        paths.pathToNewDirectory = args.slice(counter).join(' ').trim();
     } else {
-        [paths.pathToFile, paths.newName] = args;
+        [paths.pathToFile, paths.pathToNewDirectory] = args;
     }
     return paths;
-}
-
-export const renameFile = async (args) => {
-    const paths = await getArguments(args);
-     if (!path.isAbsolute(paths.pathToFile)) {
-         paths.pathToFile = path.join(globalVariables._current_directory, paths.pathToFile.trim());
-     }
-    console.log('pathtoFile', paths.pathToFile);
-    console.log('newName ', path.join(path.dirname(paths.pathToFile), paths.newName.trim()));
-    console.log(path.dirname(paths.pathToFile));
-    try {
-        await fs.rename(paths.pathToFile, path.join(path.dirname(paths.pathToFile), paths.newName.trim()));
-        return () => null;
-    } catch (err) {
-        return () => 'Operation failed';
-    }
 }

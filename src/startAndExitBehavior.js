@@ -7,6 +7,7 @@ console.log(os.homedir())
 globalVariables._current_directory = os.homedir();
 
 process.stdout.write(`Welcome to the File Manager, ${globalVariables._USER_NAME}!\n`);
+process.stdout.write(`You are currently in ${globalVariables._current_directory}\n`);
 
 process.on('SIGINT', () => {
     process.exit();
