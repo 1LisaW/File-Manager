@@ -5,7 +5,7 @@ const getEOL = () => {
 }
 
 const getCPUsInfo = () =>{
-    return JSON.stringify(os.cpus());
+    return os.cpus();
 }
 
 const getHomeDerictory = () => {
@@ -17,7 +17,7 @@ const getCurrentSystemUsername = () => {
 }
 
 const getArchitecture = () => {
-    return JSON.stringify(os.arch());
+    return os.arch();
 }
 const osInfo = {
     'EOL': getEOL,

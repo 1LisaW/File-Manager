@@ -11,7 +11,8 @@ const startFileManager =  () => {
         const convertedInnerStringToCommand = convertionStringToCommand(innerText);
         const result = convertedInnerStringToCommand ? (await convertedInnerStringToCommand)() : 'Invalid input'
         if (result!== null){ 
-            process.stdout.write(`${result}\n`);
+            console.log(result);
+            // process.stdout.write(`${result}\n`);
         }
             process.stdout.write(`You are currently in ${globalVariables._current_directory}\n`);
     })
